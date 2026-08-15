@@ -88,7 +88,7 @@ Rails that lack a REVIEW tier may map `REVIEW` vectors to `N/A` until the gate e
 3. Update `vectors/v0/manifest.json` `vector_ids` list.
 4. CI must pass JWS verification before merge.
 
-msaleme's pending categories (`dispute_dos`, `reputation_manipulation`, `cascade_refund`, `skill_pricing_bait`) are the next expected intake once fixtures arrive.
+Candidate categories for the next intake, once fixtures exist: `dispute_dos`, `reputation_manipulation`, `cascade_refund`, `skill_pricing_bait`.
 
 ## Results submission format
 

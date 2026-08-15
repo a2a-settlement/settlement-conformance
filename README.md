@@ -22,7 +22,6 @@ v0 adopts the AlgoVoi cross-extension envelope (schema_version 1.1, JWS-signed).
 |------|--------|--------|
 | Chair | [@widrss](https://github.com/widrss) | active |
 | Maintainer (invited) | [@chopmob-cloud](https://github.com/chopmob-cloud) | pending acceptance |
-| Maintainer (invited) | [@msaleme](https://github.com/msaleme) | pending acceptance |
 
 Chair runs the track day-to-day: vector intake, result review, release tagging. Maintainers can merge vectors and results PRs. Invites go out at repo creation — if either declines, chair keeps the seat open until someone else steps up.
 
