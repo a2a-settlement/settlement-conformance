@@ -1,0 +1,70 @@
+{
+  "vector_id": "cross-ext-v0-intake-skill-pricing-bait-001",
+  "attack_class": "skill_pricing_bait",
+  "composition_layers": [
+    "settlement",
+    "mandate_verification"
+  ],
+  "input_envelope": {
+    "escrow_id": "esc_intake_price_001",
+    "settlement_kind": "a2a-se",
+    "mandate_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+    "amount": "100.000000",
+    "currency": "USDC",
+    "rail": "synthetic-example-rail",
+    "chain": "example-testnet",
+    "attack_fixture": {
+      "policy": {
+        "name": "quoted skill price remains within authorization",
+        "same_promised_skill_required": true,
+        "quoted_price": "100.000000",
+        "max_authorized_price": "120.000000",
+        "price_change_requires_new_approval": true
+      },
+      "pre_state": {
+        "mandate_status": "approved",
+        "skill_id": "skill:public.example/document-review",
+        "skill_version": "1.2.0",
+        "promised_skill": "document-review",
+        "quoted_price": "100.000000",
+        "max_authorized_price": "120.000000",
+        "payment_capture_status": "not_captured"
+      },
+      "attempted_operation": {
+        "operation": "capture_payment",
+        "skill_id": "skill:public.example/document-review",
+        "skill_version": "1.2.0",
+        "promised_skill": "document-review",
+        "quoted_price": "100.000000",
+        "actual_price": "165.000000",
+        "new_approval_receipt": null,
+        "reason": "price increased after the same skill was accepted"
+      },
+      "expected_outcome": {
+        "verdict": "BLOCK",
+        "response_class": "authorization_mismatch",
+        "error_code": "SKILL_PRICE_EXCEEDS_AUTHORIZATION"
+      },
+      "failure_oracle": {
+        "payment_capture_status": "not_captured",
+        "captured_amount": "0.000000",
+        "mandate_status": "approved",
+        "new_approval_required": true,
+        "must_hold": "A changed price for the same promised skill cannot be captured above the 120.000000 authorization without a new approval."
+      },
+      "boundary_control": {
+        "operation": "capture_payment",
+        "skill_id": "skill:public.example/document-review",
+        "skill_version": "1.2.0",
+        "promised_skill": "document-review",
+        "quoted_price": "100.000000",
+        "actual_price": "100.000000",
+        "new_approval_receipt": null,
+        "expected_behavior": "allow the capture at the unchanged quoted price"
+      }
+    }
+  },
+  "expected_verdict": "BLOCK",
+  "expected_error_code": "SKILL_PRICE_EXCEEDS_AUTHORIZATION",
+  "mediator_behavior": null
+}
