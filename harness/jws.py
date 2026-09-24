@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+import rfc8785
 from nacl.exceptions import BadSignatureError
 from nacl.signing import VerifyKey
 
@@ -24,10 +25,18 @@ def unsigned_vector(vector: dict[str, Any]) -> dict[str, Any]:
 
 
 def canonical_vector_bytes(vector: dict[str, Any]) -> bytes:
-    """RFC8785-compatible canonical form (JCS subset: sorted keys, minimal separators)."""
-    return json.dumps(unsigned_vector(vector), sort_keys=True, separators=(",", ":")).encode(
-        "utf-8"
-    )
+    """RFC 8785 (JCS) canonical form of the unsigned vector.
+
+    manifest.json declares `"canonicalizer": "rfc8785@0.1.4"`, so this uses
+    that implementation rather than a `json.dumps` approximation. The two
+    agree on the current v0 vectors, which are pure ASCII with string
+    amounts, and diverge as soon as a vector is not: `json.dumps` defaults
+    to `ensure_ascii=True` and escapes non-ASCII, RFC 8785 requires UTF-8
+    output. They also disagree on JSON number forms and on sort order for
+    characters outside the BMP, because RFC 8785 sorts by UTF-16 code unit.
+    See tests/test_canonicalization.py.
+    """
+    return rfc8785.dumps(unsigned_vector(vector))
 
 
 def jwk_x_for_manifest(manifest: dict[str, Any]) -> str:
