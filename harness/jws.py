@@ -30,6 +30,11 @@ def canonical_vector_bytes(vector: dict[str, Any]) -> bytes:
     )
 
 
+def jwk_x_for_manifest(manifest: dict[str, Any]) -> str:
+    """Use the artefact key. v0 stays on the AlgoVoi key when the manifest omits one."""
+    return manifest.get("jwk_x") or ALGOVOI_JWK_X
+
+
 def verify_vector_jws(vector: dict[str, Any], *, jwk_x: str = ALGOVOI_JWK_X) -> tuple[bool, str]:
     """Return (ok, detail) per artefact verification_recipe steps 1-6."""
     jws = vector.get("jws")

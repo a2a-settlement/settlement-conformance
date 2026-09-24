@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.1",
+  "artefact_id": "assurance-workflow-v1",
+  "signer_did": "did:key:assurance-experiment",
+  "jwk_x": "o3XP3CC9RKkQwWnJ8cSnabPO5DtSEPtCc_o3Jnft-9Q",
+  "vector_ids": [
+    "assurance-v1-premature-release-001",
+    "assurance-v1-refund-replay-001",
+    "assurance-v1-sibling-budget-001",
+    "assurance-v1-delegation-widening-001"
+  ]
+}

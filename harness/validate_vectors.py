@@ -6,7 +6,13 @@ import argparse
 import sys
 from pathlib import Path
 
-from harness.jws import load_all_vectors, load_manifest, validate_vector_shape, verify_vector_jws
+from harness.jws import (
+    jwk_x_for_manifest,
+    load_all_vectors,
+    load_manifest,
+    validate_vector_shape,
+    verify_vector_jws,
+)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -33,7 +39,7 @@ def main(argv: list[str] | None = None) -> int:
         shape_errors = validate_vector_shape(vector)
         for err in shape_errors:
             errors.append(f"{vid}: {err}")
-        ok, detail = verify_vector_jws(vector)
+        ok, detail = verify_vector_jws(vector, jwk_x=jwk_x_for_manifest(manifest))
         if not ok:
             errors.append(f"{vid}: jws verification failed: {detail}")
         else:

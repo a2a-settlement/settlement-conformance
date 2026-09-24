@@ -1,0 +1,16 @@
+{
+  "vector_id": "assurance-v1-sibling-budget-001",
+  "attack_class": "sibling_over_budget",
+  "composition_layers": [
+    "settlement"
+  ],
+  "input_envelope": {
+    "settlement_kind": "a2a-se",
+    "amount": 10,
+    "limit_units": 11
+  },
+  "expected_verdict": "BLOCK",
+  "expected_error_code": "ROOT_BUDGET_EXCEEDED",
+  "signer_did": "did:key:assurance-experiment",
+  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImFzc3VyYW5jZS1leHBlcmltZW50In0.eyJhdHRhY2tfY2xhc3MiOiJzaWJsaW5nX292ZXJfYnVkZ2V0IiwiY29tcG9zaXRpb25fbGF5ZXJzIjpbInNldHRsZW1lbnQiXSwiZXhwZWN0ZWRfZXJyb3JfY29kZSI6IlJPT1RfQlVER0VUX0VYQ0VFREVEIiwiZXhwZWN0ZWRfdmVyZGljdCI6IkJMT0NLIiwiaW5wdXRfZW52ZWxvcGUiOnsiYW1vdW50IjoxMCwibGltaXRfdW5pdHMiOjExLCJzZXR0bGVtZW50X2tpbmQiOiJhMmEtc2UifSwic2lnbmVyX2RpZCI6ImRpZDprZXk6YXNzdXJhbmNlLWV4cGVyaW1lbnQiLCJ2ZWN0b3JfaWQiOiJhc3N1cmFuY2UtdjEtc2libGluZy1idWRnZXQtMDAxIn0.VNJH7hiNJ3iHY05wXYkEgHvq4IpU4lIoIMEkPeSZvLe247knlJuks3VZKUPNm97X3zSFEDvm-518BEu1Ti_aBQ"
+}

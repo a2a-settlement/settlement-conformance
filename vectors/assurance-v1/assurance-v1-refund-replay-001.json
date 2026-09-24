@@ -1,0 +1,15 @@
+{
+  "vector_id": "assurance-v1-refund-replay-001",
+  "attack_class": "refund_replay",
+  "composition_layers": [
+    "settlement"
+  ],
+  "input_envelope": {
+    "settlement_kind": "a2a-se",
+    "amount": 10
+  },
+  "expected_verdict": "BLOCK",
+  "expected_error_code": "REFUND_REPLAY",
+  "signer_did": "did:key:assurance-experiment",
+  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImFzc3VyYW5jZS1leHBlcmltZW50In0.eyJhdHRhY2tfY2xhc3MiOiJyZWZ1bmRfcmVwbGF5IiwiY29tcG9zaXRpb25fbGF5ZXJzIjpbInNldHRsZW1lbnQiXSwiZXhwZWN0ZWRfZXJyb3JfY29kZSI6IlJFRlVORF9SRVBMQVkiLCJleHBlY3RlZF92ZXJkaWN0IjoiQkxPQ0siLCJpbnB1dF9lbnZlbG9wZSI6eyJhbW91bnQiOjEwLCJzZXR0bGVtZW50X2tpbmQiOiJhMmEtc2UifSwic2lnbmVyX2RpZCI6ImRpZDprZXk6YXNzdXJhbmNlLWV4cGVyaW1lbnQiLCJ2ZWN0b3JfaWQiOiJhc3N1cmFuY2UtdjEtcmVmdW5kLXJlcGxheS0wMDEifQ.9RkJ8iVL8jHczrFzs9IyzT6icbz7cGEhF_q49TtHNLnJA_B4zhuK7AD9qWWiGQ2HgAdH7XZCG4S-5CSuHq4zDQ"
+}

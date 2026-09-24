@@ -1,0 +1,18 @@
+{
+  "vector_id": "assurance-v1-premature-release-001",
+  "attack_class": "premature_release",
+  "composition_layers": [
+    "settlement"
+  ],
+  "input_envelope": {
+    "settlement_kind": "a2a-se",
+    "amount": 10,
+    "task_id": "task-analytical-1",
+    "criteria_hash": "abababababababababababababababababababababababababababababababab",
+    "acceptance_required": true
+  },
+  "expected_verdict": "BLOCK",
+  "expected_error_code": "ACCEPTANCE_REQUIRED",
+  "signer_did": "did:key:assurance-experiment",
+  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImFzc3VyYW5jZS1leHBlcmltZW50In0.eyJhdHRhY2tfY2xhc3MiOiJwcmVtYXR1cmVfcmVsZWFzZSIsImNvbXBvc2l0aW9uX2xheWVycyI6WyJzZXR0bGVtZW50Il0sImV4cGVjdGVkX2Vycm9yX2NvZGUiOiJBQ0NFUFRBTkNFX1JFUVVJUkVEIiwiZXhwZWN0ZWRfdmVyZGljdCI6IkJMT0NLIiwiaW5wdXRfZW52ZWxvcGUiOnsiYWNjZXB0YW5jZV9yZXF1aXJlZCI6dHJ1ZSwiYW1vdW50IjoxMCwiY3JpdGVyaWFfaGFzaCI6ImFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWIiLCJzZXR0bGVtZW50X2tpbmQiOiJhMmEtc2UiLCJ0YXNrX2lkIjoidGFzay1hbmFseXRpY2FsLTEifSwic2lnbmVyX2RpZCI6ImRpZDprZXk6YXNzdXJhbmNlLWV4cGVyaW1lbnQiLCJ2ZWN0b3JfaWQiOiJhc3N1cmFuY2UtdjEtcHJlbWF0dXJlLXJlbGVhc2UtMDAxIn0.0R9MkCTSPcYnnqIfuJv3kdpY3QLUMYqq8TAcXRxNXqNeGFIz8y-ngs-7CF2zZae3lDacbpcvIt-YOYIENauPAw"
+}

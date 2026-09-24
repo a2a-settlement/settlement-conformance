@@ -1,0 +1,15 @@
+{
+  "vector_id": "assurance-v1-delegation-widening-001",
+  "attack_class": "delegation_widening",
+  "composition_layers": [
+    "settlement"
+  ],
+  "input_envelope": {
+    "settlement_kind": "a2a-se",
+    "child_scope": "settlement:admin"
+  },
+  "expected_verdict": "BLOCK",
+  "expected_error_code": "DELEGATION_WIDENING",
+  "signer_did": "did:key:assurance-experiment",
+  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImFzc3VyYW5jZS1leHBlcmltZW50In0.eyJhdHRhY2tfY2xhc3MiOiJkZWxlZ2F0aW9uX3dpZGVuaW5nIiwiY29tcG9zaXRpb25fbGF5ZXJzIjpbInNldHRsZW1lbnQiXSwiZXhwZWN0ZWRfZXJyb3JfY29kZSI6IkRFTEVHQVRJT05fV0lERU5JTkciLCJleHBlY3RlZF92ZXJkaWN0IjoiQkxPQ0siLCJpbnB1dF9lbnZlbG9wZSI6eyJjaGlsZF9zY29wZSI6InNldHRsZW1lbnQ6YWRtaW4iLCJzZXR0bGVtZW50X2tpbmQiOiJhMmEtc2UifSwic2lnbmVyX2RpZCI6ImRpZDprZXk6YXNzdXJhbmNlLWV4cGVyaW1lbnQiLCJ2ZWN0b3JfaWQiOiJhc3N1cmFuY2UtdjEtZGVsZWdhdGlvbi13aWRlbmluZy0wMDEifQ.4ahW0I1Q8rNXUemyoJy7enPPSH6QwMoJ2s_3gsfl2ldBrXGOYasknrPWraLf8eO7FGNtUoZ2AlHMUy3AMj03Dg"
+}
