@@ -16,7 +16,7 @@ Each vector file is a self-contained JSON object:
 | `attack_class` | yes | Machine name for the attack family |
 | `composition_layers` | yes | Layer stack exercised (`settlement`, `reputation`, etc.) |
 | `input_envelope` | yes | Attack payload — settlement core fields plus attack-specific extensions |
-| `expected_verdict` | yes | `BLOCK` or `REVIEW` |
+| `expected_verdict` | yes | `BLOCK`, `REVIEW`, or `ALLOW` |
 | `expected_error_code` | yes | AlgoVoi reference code (rails are not required to emit this literally) |
 | `mediator_behavior` | no | Expected mediator action when verdict is REVIEW |
 | `signer_did` | yes | DID of the vector author |
@@ -74,8 +74,25 @@ Rails implement their own HTTP APIs and error surfaces. A conformance submission
 |--------------------|----------------|
 | `BLOCK` | Attack rejected — no unsafe state transition, typically HTTP 4xx |
 | `REVIEW` | Attack flagged for review — HTTP 4xx or explicit review/hold response; auto-approve is FAIL |
+| `ALLOW` | Legitimate operation completed normally — blocking it, or holding it for review, is FAIL |
 
 Rails that lack a REVIEW tier may map `REVIEW` vectors to `N/A` until the gate exists. Do not claim PASS on a gate you have not built.
+
+### Negative controls
+
+`BLOCK` and `REVIEW` are both satisfied by an HTTP 4xx, so a corpus made only of those two cannot distinguish a rail with a working gate from a rail that rejects everything. `ALLOW` vectors are the other half of the measurement: traffic that looks superficially like an attack but is legitimate, which a correct rail must complete.
+
+Candidates that pair directly with the current v0 set:
+
+| Pairs with | `ALLOW` case |
+|---|---|
+| `escrow_double_release` | A second, legitimate partial release on an escrow in `partially_released`, within the remaining balance |
+| `refund_replay` | A refund correctly authorized for its own escrow, following an unrelated earlier refund |
+| `dispute_amplification` | A normal client opening three disputes in 60 seconds across unrelated escrows |
+| `synthetic_artifact_dispute` | A dispute where the claimed and actual artifact digests match |
+| `mediator_grooming` | A high win rate earned across value-weighted history rather than low-value disputes |
+
+A submission that reports `PASS` on the `BLOCK` set and `FAIL` on the paired `ALLOW` set has found a real defect, and that is the point.
 
 ### Error codes
 
