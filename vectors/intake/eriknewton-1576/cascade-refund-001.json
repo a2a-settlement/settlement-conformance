@@ -1,0 +1,72 @@
+{
+  "vector_id": "cross-ext-v0-intake-cascade-refund-001",
+  "attack_class": "cascade_refund",
+  "composition_layers": [
+    "settlement"
+  ],
+  "input_envelope": {
+    "escrow_id": "esc_intake_refund_001",
+    "settlement_kind": "a2a-se",
+    "mandate_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "amount": "100.000000",
+    "currency": "USDC",
+    "rail": "synthetic-example-rail",
+    "chain": "example-testnet",
+    "attack_fixture": {
+      "policy": {
+        "name": "non-overlapping parent-child refund budget",
+        "refund_budget": "40.000000",
+        "parent_child_overlap_forbidden": true,
+        "refund_credit_is_single_entry_per_authorization": true
+      },
+      "pre_state": {
+        "escrow_status": "settled",
+        "refund_budget_total": "40.000000",
+        "refunds_credited": [
+          {
+            "refund_id": "refund_parent_001",
+            "scope": "service_window_1",
+            "amount": "25.000000",
+            "authorization": "auth_parent_001"
+          }
+        ],
+        "refund_budget_used": "25.000000",
+        "refund_budget_remaining": "15.000000",
+        "recipient_balance_before": "1000.000000"
+      },
+      "attempted_operation": {
+        "operation": "credit_refund",
+        "refund_id": "refund_child_001",
+        "parent_refund_id": "refund_parent_001",
+        "scope": "service_window_1",
+        "amount": "20.000000",
+        "authorization": "auth_child_001",
+        "reason": "child authorization overlaps an already credited parent scope"
+      },
+      "expected_outcome": {
+        "verdict": "BLOCK",
+        "response_class": "refund_rejection",
+        "error_code": "REFUND_SCOPE_OVERLAP_OR_BUDGET_EXCEEDED"
+      },
+      "failure_oracle": {
+        "recipient_balance_delta": "0.000000",
+        "refund_budget_used": "25.000000",
+        "refund_budget_remaining": "15.000000",
+        "child_refund_recorded": false,
+        "must_hold": "The attempted 20.000000 child credit is neither paid nor recorded because it overlaps the parent and exceeds the remaining 15.000000 budget."
+      },
+      "boundary_control": {
+        "operation": "credit_refund",
+        "refund_id": "refund_child_002",
+        "parent_refund_id": "refund_parent_001",
+        "scope": "service_window_2",
+        "amount": "10.000000",
+        "authorization": "auth_child_002",
+        "expected_behavior": "accept once because the scope is disjoint and the amount fits within the 15.000000 remaining budget"
+      }
+    }
+  },
+  "expected_verdict": "BLOCK",
+  "expected_error_code": "REFUND_SCOPE_OVERLAP_OR_BUDGET_EXCEEDED",
+  "mediator_behavior": null
+}

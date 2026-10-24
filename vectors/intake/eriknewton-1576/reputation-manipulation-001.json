@@ -1,0 +1,92 @@
+{
+  "vector_id": "cross-ext-v0-intake-reputation-manipulation-001",
+  "attack_class": "reputation_manipulation",
+  "composition_layers": [
+    "settlement",
+    "reputation"
+  ],
+  "input_envelope": {
+    "escrow_id": "esc_intake_rep_001",
+    "settlement_kind": "a2a-se",
+    "mandate_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "amount": "42.000000",
+    "currency": "USDC",
+    "rail": "synthetic-example-rail",
+    "chain": "example-testnet",
+    "attack_fixture": {
+      "policy": {
+        "name": "independent-counterparty feedback weighting",
+        "independent_counterparty_required": true,
+        "one_feedback_per_settled_escrow": true,
+        "self_feedback_weight": 0,
+        "collusive_cluster_feedback_action": "review"
+      },
+      "pre_state": {
+        "escrow_status": "settled",
+        "subject_agent_did": "did:web:public.example:agent:subject",
+        "subject_controller_did": "did:web:public.example:controller:subject",
+        "existing_weighted_score": 0.74,
+        "independent_settled_counterparties": 3,
+        "known_controller_cluster": [
+          "did:web:public.example:agent:subject",
+          "did:web:public.example:agent:boost-1",
+          "did:web:public.example:agent:boost-2"
+        ],
+        "eligible_independent_counterparties": [
+          {
+            "reviewer_did": "did:web:public.example:agent:independent-7",
+            "settled_escrow_id": "esc_intake_rep_001",
+            "prior_feedback": false,
+            "controller_differs_from_subject": true
+          }
+        ]
+      },
+      "attempted_operation": {
+        "operation": "submit_feedback_batch",
+        "subject_agent_did": "did:web:public.example:agent:subject",
+        "feedback": [
+          {
+            "reviewer_did": "did:web:public.example:agent:subject",
+            "rating": 1,
+            "settled_escrow_id": "esc_intake_rep_001",
+            "claimed_relationship": "same_controller"
+          },
+          {
+            "reviewer_did": "did:web:public.example:agent:boost-1",
+            "rating": 1,
+            "settled_escrow_id": "esc_intake_rep_001",
+            "claimed_relationship": "same_controller_cluster"
+          },
+          {
+            "reviewer_did": "did:web:public.example:agent:boost-2",
+            "rating": 1,
+            "settled_escrow_id": "esc_intake_rep_001",
+            "claimed_relationship": "same_controller_cluster"
+          }
+        ]
+      },
+      "expected_outcome": {
+        "verdict": "REVIEW",
+        "review_action": "hold the batch and request independent-counterparty evidence",
+        "error_code": "REPUTATION_INDEPENDENCE_VIOLATION"
+      },
+      "failure_oracle": {
+        "score_after": 0.74,
+        "accepted_feedback_count_delta": 0,
+        "auto_allow_decision": "not-evaluated",
+        "review_flag": "independence_check_required",
+        "must_hold": "Self and collusive-cluster feedback cannot increase the subject's weighted reputation."
+      },
+      "boundary_control": {
+        "operation": "submit_feedback",
+        "reviewer_did": "did:web:public.example:agent:independent-7",
+        "settled_escrow_id": "esc_intake_rep_001",
+        "rating": 0.8,
+        "expected_behavior": "accept as eligible for weighting after the normal settlement and one-feedback checks"
+      }
+    }
+  },
+  "expected_verdict": "REVIEW",
+  "expected_error_code": "REPUTATION_INDEPENDENCE_VIOLATION",
+  "mediator_behavior": "hold_reputation_update_until_independent_counterparty_evidence_is_verified"
+}
