@@ -1,0 +1,65 @@
+{
+  "rail_id": "algovoi",
+  "rail_url": "https://api.algovoi.co.uk",
+  "role": "signer + verifier (not a settlement rail). AlgoVoi authored the cross-extension-v0 composition envelope, canonicaliser, verification recipe, and JWS shape (see vectors/v0/manifest.json layer_type_provenance) and signs each vector. Settlement-rail verdicts (BLOCK/REVIEW/N/A) are reported by rails; see results/a2a-se.",
+  "artefact_id": "cross-extension-v0",
+  "schema_version": "1.1",
+  "tested_at": "2026-06-17T00:00:00Z",
+  "method": "JWS (EdDSA / Ed25519) signature verification of each published vector's `jws` against the AlgoVoi production JWKS, over the rfc8785 canonical form the manifest declares. Re-verified live 2026-06-17 against the as-published vectors/v0 fixtures.",
+  "signer_did": "did:web:api.algovoi.co.uk",
+  "kid": "d0481df4cbbda8e8aba86709419884ef",
+  "public_key_resolver": "https://api.algovoi.co.uk/.well-known/jwks.json",
+  "verification_recipe": "For each vector: split jws into header.payload.signature (compact JWS); verify Ed25519(pubkey, ASCII(header + '.' + payload), base64url_decode(signature)) using the OKP/Ed25519 key for kid d0481df4cbbda8e8aba86709419884ef.",
+  "vectors": [
+    {
+      "vector_id": "cross-ext-v0-escrow-double-release-001",
+      "attack_class": "escrow_double_release",
+      "expected_verdict": "BLOCK",
+      "expected_error_code": "RELEASE_IDEMPOTENCY_VIOLATION",
+      "jws_valid": true,
+      "result": "PASS",
+      "notes": "Signature verifies. Maps to BLOCK on the settlement rail (matches results/a2a-se)."
+    },
+    {
+      "vector_id": "cross-ext-v0-refund-replay-001",
+      "attack_class": "refund_replay",
+      "expected_verdict": "BLOCK",
+      "expected_error_code": "REFUND_AUTHORIZATION_REPLAY",
+      "jws_valid": true,
+      "result": "PASS",
+      "notes": "Signature verifies. Maps to BLOCK on the settlement rail (matches results/a2a-se)."
+    },
+    {
+      "vector_id": "cross-ext-v0-dispute-amplification-001",
+      "attack_class": "dispute_amplification",
+      "expected_verdict": "BLOCK",
+      "expected_error_code": "DISPUTE_AMPLIFICATION_DETECTED",
+      "jws_valid": true,
+      "result": "PASS",
+      "notes": "Signature verifies. dispute_amplification is a live Agent Trust Bench (ATB) category (three profiles), so there is reference behaviour to map against when the concurrent-dispute gate lands on the rail."
+    },
+    {
+      "vector_id": "cross-ext-v0-synthetic-artifact-dispute-001",
+      "attack_class": "synthetic_artifact_dispute",
+      "expected_verdict": "REVIEW",
+      "expected_error_code": "SYNTHETIC_ARTIFACT_DETECTED",
+      "jws_valid": true,
+      "result": "PASS",
+      "notes": "Signature verifies. REVIEW-tier behaviour is rail-side; AlgoVoi attests the signed artefact, not the rail verdict."
+    },
+    {
+      "vector_id": "cross-ext-v0-mediator-grooming-001",
+      "attack_class": "mediator_grooming",
+      "expected_verdict": "REVIEW",
+      "expected_error_code": "REPUTATION_VELOCITY_ANOMALY",
+      "jws_valid": true,
+      "result": "PASS",
+      "notes": "Signature verifies. REVIEW-tier behaviour is rail-side; AlgoVoi attests the signed artefact, not the rail verdict."
+    }
+  ],
+  "summary": {
+    "jws_signatures_verified": "5/5",
+    "canonicalizer": "rfc8785@0.1.4",
+    "signing_alg": "EdDSA (Ed25519)"
+  }
+}
