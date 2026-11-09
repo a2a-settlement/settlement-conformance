@@ -98,7 +98,7 @@ def validate_vector_shape(vector: dict[str, Any]) -> list[str]:
     for field in required:
         if field not in vector:
             errors.append(f"missing required field: {field}")
-    if vector.get("expected_verdict") not in ("BLOCK", "REVIEW"):
+    if vector.get("expected_verdict") not in ("BLOCK", "REVIEW", "ALLOW"):
         errors.append(f"invalid expected_verdict: {vector.get('expected_verdict')}")
     if not isinstance(vector.get("composition_layers"), list):
         errors.append("composition_layers must be a list")

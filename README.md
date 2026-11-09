@@ -39,6 +39,15 @@ New vectors: PR to `vectors/v0/` (or `vectors/v1/` when we cut the next generati
 |--------------|---------|
 | `expected_verdict: BLOCK` | Rail must reject the attack (no funds moved, no unsafe state transition) |
 | `expected_verdict: REVIEW` | Rail should flag for human/mediator review rather than auto-approve |
+| `expected_verdict: ALLOW` | Legitimate traffic the rail must NOT block. Negative control, see below |
+
+Every vector in v0 is `BLOCK` or `REVIEW`, and both are satisfied by an
+HTTP 4xx, so a rail that refuses everything scores 100 percent. For the
+gates these vectors test (dispute rate limiting, reputation velocity), a
+false positive is the actual product risk: an over-eager dispute gate is
+itself a liquidity-freeze denial of service. `ALLOW` vectors are how the
+corpus measures that side, and a rail's score is only meaningful when it
+runs both.
 
 | Result | Meaning |
 |--------|---------|
