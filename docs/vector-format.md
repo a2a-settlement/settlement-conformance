@@ -29,7 +29,7 @@ The manifest (`vectors/v0/manifest.json`) carries artefact metadata: `schema_ver
 Per AlgoVoi artefact `context.verification_recipe`:
 
 1. Extract the `jws` field; the remaining object is the unsigned vector.
-2. Compute RFC 8785 canonical JSON (`sort_keys=True`, minimal separators) over the unsigned vector.
+2. Compute RFC 8785 canonical JSON over the unsigned vector, using a conforming JCS implementation (the harness uses `rfc8785`, matching the `canonicalizer` declared in `manifest.json`). Note that `json.dumps(sort_keys=True, separators=(",", ":"))` is not equivalent: it escapes non-ASCII by default, serializes JSON numbers differently, and sorts by code point rather than by UTF-16 code unit.
 3. Split `jws` on `.` into `[header_b64, payload_b64, signature_b64]`.
 4. Confirm `base64url_decode(payload_b64)` equals the canonical bytes from step 2.
 5. Resolve `signer_did` to the Ed25519 public key via JWKS (`kid: d0481df4cbbda8e8aba86709419884ef`).
