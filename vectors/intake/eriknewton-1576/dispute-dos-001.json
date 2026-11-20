@@ -1,0 +1,67 @@
+{
+  "vector_id": "cross-ext-v0-intake-dispute-dos-001",
+  "attack_class": "dispute_dos",
+  "composition_layers": [
+    "settlement",
+    "dispute_resolution"
+  ],
+  "input_envelope": {
+    "escrow_id": "esc_intake_dos_001",
+    "settlement_kind": "a2a-se",
+    "mandate_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "amount": "60.000000",
+    "currency": "USDC",
+    "rail": "synthetic-example-rail",
+    "chain": "example-testnet",
+    "attack_fixture": {
+      "policy": {
+        "name": "per-escrow dispute budget with idempotent replay handling",
+        "max_new_disputes": 2,
+        "window_seconds": 86400,
+        "duplicate_idempotency_replay_consumes_budget": false,
+        "same_dispute_id_is_idempotent": true
+      },
+      "pre_state": {
+        "escrow_status": "active",
+        "dispute_budget_remaining": 1,
+        "disputes": [
+          {
+            "dispute_id": "dispute_dos_001",
+            "idempotency_key": "idem_original_001",
+            "status": "open"
+          }
+        ],
+        "notifications_sent": 1
+      },
+      "attempted_operation": {
+        "operation": "open_dispute",
+        "replays": 3,
+        "dispute_id": "dispute_dos_001",
+        "idempotency_key": "idem_original_001",
+        "reason": "same request replayed to consume the scarce dispute budget"
+      },
+      "expected_outcome": {
+        "verdict": "BLOCK",
+        "response_class": "idempotent_rejection",
+        "error_code": "DUPLICATE_DISPUTE_IDEMPOTENCY_REPLAY"
+      },
+      "failure_oracle": {
+        "budget_remaining": 1,
+        "dispute_count": 1,
+        "new_notifications": 0,
+        "unsafe_state_transition": false,
+        "must_hold": "The three replays do not create disputes or consume any new dispute budget."
+      },
+      "boundary_control": {
+        "operation": "open_dispute",
+        "dispute_id": "dispute_dos_002",
+        "idempotency_key": "idem_new_002",
+        "precondition": "one dispute budget unit remains and the request has not been seen",
+        "expected_behavior": "accept exactly one new dispute and reduce the budget to zero"
+      }
+    }
+  },
+  "expected_verdict": "BLOCK",
+  "expected_error_code": "DUPLICATE_DISPUTE_IDEMPOTENCY_REPLAY",
+  "mediator_behavior": null
+}
